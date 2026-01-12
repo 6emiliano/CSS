@@ -1,0 +1,90 @@
+.item-list-container {
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #1e3a5f 0%, #0a1929 100%);
+    padding: 4rem 2rem;
+}
+
+.greeting-message {
+    text-align: center;
+    max-width: 900px;
+    padding: 3rem 2rem;
+    background: rgba(200, 90, 51, 0.1);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(200, 90, 51, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.logo-full {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
+    animation: logoEntrance 1s ease-out;
+}
+
+@keyframes logoEntrance {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.rotating-message {
+    color: #f5e6d3;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 0;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.5;
+    animation: fadeIn 0.8s ease-in;
+    min-height: 3rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .greeting-message {
+        padding: 2rem 1.5rem;
+        gap: 1.5rem;
+    }
+    
+    .logo-full {
+        max-width: 280px;
+    }
+    
+    .rotating-message {
+        font-size: 1.3rem;
+        min-height: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo-full {
+        max-width: 220px;
+    }
+    
+    .rotating-message {
+        font-size: 1.1rem;
+    }
+}

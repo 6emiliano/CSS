@@ -1,13 +1,12 @@
-import { useState } from 'react';
+import { useCart } from '../../context/CartContext';
 import { BsBag } from "react-icons/bs";
 import './CartWidget.css';
 
-const CartWidget = () => {
-    // Contador en 3
-    const [cartCount] = useState(3);
+const CartWidget = ({ onClick }) => {
+    const { cartCount } = useCart();
 
     return (
-        <div className="cart-widget">
+        <div className="cart-widget" onClick={onClick}>
             <BsBag className="cart-icon" />
             {cartCount > 0 && (
                 <span className="cart-badge">{cartCount}</span>

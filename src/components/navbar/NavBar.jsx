@@ -1,21 +1,73 @@
+import { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 import CartWidget from '../CartWidget/CartWidget';
 import './NavBar.css';
 import logo from '../../img/logo_redu.png';
 
-const NavBar = () => {
+const NavBar = ({ onCartClick }) => {
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setMenuOpen(!menuOpen);
+    };
+
+    const closeMenu = () => {
+        setMenuOpen(false);
+    };
+
     return (
         <nav className="navbar">
-            <div className="navbar-logo">
+            <Link to="/" className="navbar-logo" onClick={closeMenu}>
                 <img src={logo} alt="Court Street & Supply" />
-            </div>
+            </Link>
             
-            <ul className="navbar-links">
-                <li><a href="#basketball">Basketball</a></li>
-                <li><a href="#running">Running</a></li>
-                <li><a href="#urbanas">Urbanas</a></li>
+            <button className="menu-toggle" onClick={toggleMenu}>
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <ul className={`navbar-links ${menuOpen ? 'active' : ''}`}>
+                <li>
+                    <NavLink 
+                        to="/" 
+                        className={({ isActive }) => `category-btn ${isActive ? 'active' : ''}`}
+                        onClick={closeMenu}
+                        end
+                    >
+                        Todos
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink 
+                        to="/category/Basketball" 
+                        className={({ isActive }) => `category-btn ${isActive ? 'active' : ''}`}
+                        onClick={closeMenu}
+                    >
+                        Basketball
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink 
+                        to="/category/Running" 
+                        className={({ isActive }) => `category-btn ${isActive ? 'active' : ''}`}
+                        onClick={closeMenu}
+                    >
+                        Running
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink 
+                        to="/category/Urbanas" 
+                        className={({ isActive }) => `category-btn ${isActive ? 'active' : ''}`}
+                        onClick={closeMenu}
+                    >
+                        Urbanas
+                    </NavLink>
+                </li>
             </ul>
 
-            <CartWidget />
+            <CartWidget onClick={onCartClick} />
         </nav>  
     );
 }

@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 import './Checkout.css';
 
-const Checkout = ({ onClose }) => {
+const Checkout = () => {
+    const navigate = useNavigate();
     const { cart, cartTotal, clear } = useCart();
     const [formData, setFormData] = useState({
         name: '',
@@ -25,6 +27,13 @@ const Checkout = ({ onClose }) => {
         return `ORD-${timestamp}-${random}`;
     };
 
+    // Redirigir a home si el carrito está vacío
+    useEffect(() => {
+        if (cart.length === 0 && !orderComplete) {
+            navigate('/');
+        }
+    }, [cart, navigate, orderComplete]);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         
@@ -45,10 +54,14 @@ const Checkout = ({ onClose }) => {
         }, 3000);
     };
 
+    const handleBackHome = () => {
+        navigate('/');
+    };
+
     if (orderComplete) {
         return (
-            <div className="checkout-modal">
-                <div className="checkout-content">
+            <div className="checkout-page">
+                <div className="checkout-container">
                     <div className="success-animation">✓</div>
                     <h2>¡Compra Exitosa!</h2>
                     <div className="order-details">
@@ -56,7 +69,7 @@ const Checkout = ({ onClose }) => {
                         <p>Gracias por tu compra, <strong>{formData.name}</strong></p>
                         <p>Te enviaremos un email de confirmación a <strong>{formData.email}</strong></p>
                     </div>
-                    <button className="back-home-btn" onClick={onClose}>
+                    <button className="back-home-btn" onClick={handleBackHome}>
                         Volver al Inicio
                     </button>
                 </div>
@@ -65,11 +78,10 @@ const Checkout = ({ onClose }) => {
     }
 
     return (
-        <div className="checkout-modal">
-            <div className="checkout-content">
+        <div className="checkout-page">
+            <div className="checkout-container">
                 <div className="checkout-header">
                     <h2>Finalizar Compra</h2>
-                    <button className="close-btn" onClick={onClose}>✕</button>
                 </div>
 
                 <div className="checkout-body">

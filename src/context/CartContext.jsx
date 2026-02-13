@@ -13,19 +13,43 @@ export const useCart = () => {
 export const CartProvider = ({ children }) => {
     const [cart, setCart] = useState([]);
 
-    // Agregar item al carrito
+    // Agregar item al carrito con validación de stock
     const addItem = (item, quantity) => {
+        const currentQuantity = getQuantity(item.id);
+        const availableStock = item.stock - currentQuantity;
+        const quantityToAdd = Math.min(quantity, availableStock);
+        
+        // Si no hay stock disponible
+        if (quantityToAdd <= 0) {
+            return { 
+                success: false, 
+                message: 'No hay más stock disponible para este producto',
+                quantityAdded: 0
+            };
+        }
+        
+        // Si se agregó menos de lo solicitado
+        const partialAdd = quantityToAdd < quantity;
+        
         if (isInCart(item.id)) {
             // Si ya existe, actualizar cantidad
             setCart(cart.map(cartItem => 
                 cartItem.id === item.id 
-                    ? { ...cartItem, quantity: cartItem.quantity + quantity }
+                    ? { ...cartItem, quantity: cartItem.quantity + quantityToAdd }
                     : cartItem
             ));
         } else {
             // Si no existe, agregar nuevo item
-            setCart([...cart, { ...item, quantity }]);
+            setCart([...cart, { ...item, quantity: quantityToAdd }]);
         }
+        
+        return { 
+            success: true, 
+            quantityAdded: quantityToAdd,
+            message: partialAdd 
+                ? `Solo se agregaron ${quantityToAdd} unidades (máximo disponible)`
+                : `${quantityToAdd} ${quantityToAdd === 1 ? 'unidad agregada' : 'unidades agregadas'} al carrito`
+        };
     };
 
     // Remover item del carrito

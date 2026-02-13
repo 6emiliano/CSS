@@ -1,16 +1,69 @@
-# React + Vite
+# Court Street & Supply 👟
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+E-commerce de zapatillas deportivas desarrollado con React y Firebase. Plataforma moderna para la compra de calzado deportivo de las mejores marcas.
 
-Currently, two official plugins are available:
+## 🚀 Instalación
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+# Clonar el repositorio
+git clone https://github.com/6emiliano/CSS.git
 
-## React Compiler
+# Instalar dependencias
+npm install
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# Iniciar servidor de desarrollo
+npm run dev
 
-## Expanding the ESLint configuration
+# Compilar para producción
+npm run build
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## ✨ Características
+
+- 🛍️ **Catálogo de productos** - Navegación por categorías (Basketball, Running, Urbanas)
+- 🛒 **Carrito de compras** - Gestión completa con validación de stock en tiempo real
+- 📦 **Checkout** - Proceso de compra con validación de formulario
+- 🔥 **Firebase Integration** - Base de datos en tiempo real para productos y órdenes
+- 📱 **Responsive Design** - Diseño adaptable a todos los dispositivos
+- ⚡ **Validación de stock** - Control inteligente de inventario y límites de compra
+- 🎨 **UI Moderna** - Interfaz intuitiva y atractiva
+
+## 🛠️ Tecnologías
+
+- **React 19** - Framework principal
+- **React Router DOM** - Navegación entre páginas
+- **Firebase/Firestore** - Base de datos y backend
+- **Vite** - Build tool y dev server
+- **React Icons** - Iconografía
+- **CSS3** - Estilos personalizados
+
+## 📁 Estructura del Proyecto
+
+```
+src/
+├── components/       # Componentes reutilizables
+├── context/         # Context API (CartContext)
+├── hooks/           # Custom hooks (useAddToCart)
+├── services/        # Servicios de API (productService)
+├── utils/           # Utilidades compartidas
+├── db/              # Configuración de Firebase
+└── data/            # Datos de respaldo
+```
+
+## 🤝 Contribución
+
+Las contribuciones son bienvenidas. Para cambios importantes:
+
+1. Fork el proyecto
+2. Crea una rama para tu feature (`git checkout -b feature/AmazingFeature`)
+3. Commit tus cambios (`git commit -m 'Add: AmazingFeature'`)
+4. Push a la rama (`git push origin feature/AmazingFeature`)
+5. Abre un Pull Request
+
+## 📝 Licencia
+
+
+
+## 👤 Autor
+
+Desarrollado como proyecto del curso de React en CoderHouse.

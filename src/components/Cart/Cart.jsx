@@ -1,22 +1,22 @@
 import { useCart } from '../../context/CartContext';
+import { Link } from 'react-router-dom';
 import './Cart.css';
 
-const Cart = ({ onClose, onCheckout }) => {
+const Cart = () => {
     const { cart, removeItem, clear, cartTotal } = useCart();
 
     if (cart.length === 0) {
         return (
-            <div className="cart-modal">
-                <div className="cart-content">
+            <div className="cart-page">
+                <div className="cart-container">
                     <div className="cart-header">
                         <h2>Tu Carrito</h2>
-                        <button className="close-btn" onClick={onClose}>✕</button>
                     </div>
                     <div className="cart-empty">
                         <p>Tu carrito está vacío</p>
-                        <button className="continue-shopping-btn" onClick={onClose}>
+                        <Link to="/" className="continue-shopping-btn">
                             Continuar Comprando
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>
@@ -24,11 +24,10 @@ const Cart = ({ onClose, onCheckout }) => {
     }
 
     return (
-        <div className="cart-modal">
-            <div className="cart-content">
+        <div className="cart-page">
+            <div className="cart-container">
                 <div className="cart-header">
                     <h2>Tu Carrito ({cart.reduce((acc, item) => acc + item.quantity, 0)} items)</h2>
-                    <button className="close-btn" onClick={onClose}>✕</button>
                 </div>
 
                 <div className="cart-items">
@@ -62,9 +61,9 @@ const Cart = ({ onClose, onCheckout }) => {
                         <button className="clear-cart-btn" onClick={clear}>
                             Vaciar Carrito
                         </button>
-                        <button className="checkout-btn" onClick={onCheckout}>
+                        <Link to="/checkout" className="checkout-btn">
                             Finalizar Compra
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </div>

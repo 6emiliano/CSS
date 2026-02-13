@@ -4,7 +4,7 @@ import CartWidget from '../CartWidget/CartWidget';
 import './NavBar.css';
 import logo from '../../img/logo_redu.png';
 
-const NavBar = ({ onCartClick }) => {
+const NavBar = () => {
     const [menuOpen, setMenuOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -67,7 +67,7 @@ const NavBar = ({ onCartClick }) => {
                 </li>
             </ul>
 
-            <CartWidget onClick={onCartClick} />
+            <CartWidget />
         </nav>  
     );
 }

@@ -1,29 +1,19 @@
-import { useState } from 'react';
-import { useCart } from '../../context/CartContext';
+import { Link } from 'react-router-dom';
+import { useAddToCart } from '../../hooks/useAddToCart';
+import { getCategoryColor } from '../../utils/categoryUtils';
 import ItemCount from '../ItemCount/ItemCount';
 import './ItemDetail.css';
 
 const ItemDetail = ({ product }) => {
-    const { addItem } = useCart();
-    const [showCount, setShowCount] = useState(true);
-
-    const handleAdd = (quantity) => {
-        addItem(product, quantity);
-        setShowCount(false);
-        
-        setTimeout(() => {
-            setShowCount(true);
-        }, 2000);
-    };
-
-    const getCategoryColor = (category) => {
-        const colors = {
-            'Basketball': '#ff6b35',
-            'Running': '#4ecdc4',
-            'Urbanas': '#95e1d3'
-        };
-        return colors[category] || '#ccc';
-    };
+    const {
+        handleAdd,
+        availableStock,
+        currentCartQuantity,
+        quantityAdded,
+        message,
+        isWarning,
+        setQuantityAdded
+    } = useAddToCart(product);
 
     return (
         <div className="item-detail-container">
@@ -54,20 +44,64 @@ const ItemDetail = ({ product }) => {
                         </div>
                         <div className="item-detail-stock-section">
                             <span className="item-detail-stock-label">Stock disponible</span>
-                            <span className="item-detail-stock">{product.stock} unidades</span>
+                            <span className="item-detail-stock">
+                                {availableStock} unidades
+                                {currentCartQuantity > 0 && (
+                                    <span style={{ fontSize: '0.85em', color: '#666', marginLeft: '8px' }}>
+                                        ({currentCartQuantity} en carrito)
+                                    </span>
+                                )}
+                            </span>
                         </div>
                     </div>
 
                     <div className="item-detail-actions">
-                        {showCount ? (
-                            <ItemCount 
-                                stock={product.stock}
-                                initial={1}
-                                onAdd={handleAdd}
-                            />
+                        {quantityAdded === 0 ? (
+                            <>
+                                {availableStock > 0 ? (
+                                    <ItemCount 
+                                        stock={availableStock}
+                                        initial={1}
+                                        onAdd={handleAdd}
+                                    />
+                                ) : (
+                                    <div className="no-stock-message" style={{ 
+                                        padding: '15px', 
+                                        backgroundColor: '#ffebee', 
+                                        borderRadius: '8px', 
+                                        color: '#c62828',
+                                        textAlign: 'center',
+                                        fontWeight: '500'
+                                    }}>
+                                        Ya tienes el máximo stock disponible en tu carrito
+                                    </div>
+                                )}
+                            </>
                         ) : (
-                            <div className="item-detail-added-message">
-                                ✓ Agregado al carrito
+                            <div className="item-detail-purchase-actions">
+                                <div 
+                                    className="item-detail-added-message"
+                                    style={{ 
+                                        backgroundColor: isWarning ? '#fff3e0' : '#e8f5e9',
+                                        color: isWarning ? '#e65100' : '#2e7d32',
+                                        padding: '12px',
+                                        borderRadius: '8px',
+                                        marginBottom: '15px'
+                                    }}
+                                >
+                                    {isWarning ? '⚠️' : '✓'} {message}
+                                </div>
+                                <div className="item-detail-buttons">
+                                    <Link to="/cart" className="finish-purchase-btn">
+                                        Terminar mi compra
+                                    </Link>
+                                    <button 
+                                        className="continue-shopping-btn" 
+                                        onClick={() => setQuantityAdded(0)}
+                                    >
+                                        Seguir Comprando
+                                    </button>
+                                </div>
                             </div>
                         )}
                     </div>

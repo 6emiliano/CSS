@@ -1,17 +1,21 @@
 import { useCart } from '../../context/CartContext';
+import { Link } from 'react-router-dom';
 import { BsBag } from "react-icons/bs";
 import './CartWidget.css';
 
-const CartWidget = ({ onClick }) => {
+const CartWidget = () => {
     const { cartCount } = useCart();
 
+    // No mostrar el widget si no hay items en el carrito
+    if (cartCount === 0) {
+        return null;
+    }
+
     return (
-        <div className="cart-widget" onClick={onClick}>
+        <Link to="/cart" className="cart-widget">
             <BsBag className="cart-icon" />
-            {cartCount > 0 && (
-                <span className="cart-badge">{cartCount}</span>
-            )}
-        </div>
+            <span className="cart-badge">{cartCount}</span>
+        </Link>
     );
 }
 

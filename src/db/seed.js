@@ -1,3 +1,6 @@
+import db from "./db.js";
+import { addDoc, collection } from "firebase/firestore";
+
 const products = [
     // BASKETBALL
     {
@@ -94,4 +97,23 @@ const products = [
     }
 ];
 
-export default products;
+
+const seedProducts = async () => {
+  try {  
+    const productsRef = collection(db, "products");
+
+    for(const product of products) {
+        const {id, ...productData} = product; // Excluimos el id del producto
+        await addDoc(productsRef, productData);
+        console.log("Producto agregado correctamente");
+    }
+    console.log("Todos los productos han sido agregados a Firestore");
+  } catch (error) {
+    console.log("error al agregar productos: ", error);
+  }
+};
+
+seedProducts();
+
+
+

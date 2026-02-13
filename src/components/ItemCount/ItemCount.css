@@ -77,6 +77,33 @@
     transform: none;
 }
 
+/* Compact version for product cards */
+.item-count.compact {
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.item-count.compact .counter-controls {
+    gap: 10px;
+    padding: 6px;
+}
+
+.item-count.compact .counter-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 16px;
+}
+
+.item-count.compact .counter-display {
+    font-size: 16px;
+    min-width: 30px;
+}
+
+.item-count.compact .add-to-cart-btn {
+    padding: 10px;
+    font-size: 13px;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .counter-btn {
@@ -93,5 +120,21 @@
     .add-to-cart-btn {
         font-size: 14px;
         padding: 10px;
+    }
+
+    .item-count.compact .counter-btn {
+        width: 26px;
+        height: 26px;
+        font-size: 14px;
+    }
+
+    .item-count.compact .counter-display {
+        font-size: 14px;
+        min-width: 25px;
+    }
+
+    .item-count.compact .add-to-cart-btn {
+        font-size: 12px;
+        padding: 8px;
     }
 }

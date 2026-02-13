@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './ItemCount.css';
 
-const ItemCount = ({ stock, initial = 1, onAdd }) => {
+const ItemCount = ({ stock, initial = 1, onAdd, compact = false }) => {
     const [count, setCount] = useState(initial);
 
     const handleIncrement = () => {
@@ -23,7 +23,7 @@ const ItemCount = ({ stock, initial = 1, onAdd }) => {
     };
 
     return (
-        <div className="item-count">
+        <div className={`item-count ${compact ? 'compact' : ''}`}>
             <div className="counter-controls">
                 <button 
                     className="counter-btn" 

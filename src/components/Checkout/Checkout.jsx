@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
+import { processOrder } from '../../services/orderService';
 import './Checkout.css';
 
 const Checkout = () => {
@@ -13,18 +14,14 @@ const Checkout = () => {
     });
     const [orderComplete, setOrderComplete] = useState(false);
     const [orderId, setOrderId] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
-    };
-
-    const generateOrderId = () => {
-        const timestamp = Date.now();
-        const random = Math.floor(Math.random() * 10000);
-        return `ORD-${timestamp}-${random}`;
     };
 
     // Redirigir a home si el carrito está vacío
@@ -34,7 +31,7 @@ const Checkout = () => {
         }
     }, [cart, navigate, orderComplete]);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         // Validaciones básicas
@@ -43,15 +40,34 @@ const Checkout = () => {
             return;
         }
 
-        // Simular procesamiento de compra
-        const newOrderId = generateOrderId();
-        setOrderId(newOrderId);
-        setOrderComplete(true);
-        
-        // Limpiar carrito después de 3 segundos
-        setTimeout(() => {
-            clear();
-        }, 3000);
+        setLoading(true);
+        setError('');
+
+        try {
+            // Preparar datos del comprador
+            const buyer = {
+                name: formData.name,
+                email: formData.email,
+                phone: formData.phone
+            };
+
+            // Procesar la orden en Firebase (actualiza stock y crea orden)
+            const newOrderId = await processOrder(buyer, cart, cartTotal);
+            
+            // Establecer el ID de orden y marcar como completado
+            setOrderId(newOrderId);
+            setOrderComplete(true);
+            
+            // Limpiar carrito después de mostrar el éxito
+            setTimeout(() => {
+                clear();
+            }, 3000);
+        } catch (error) {
+            console.error('Error al procesar la compra:', error);
+            setError(error.message || 'Hubo un error al procesar tu compra. Por favor, intenta nuevamente.');
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleBackHome = () => {
@@ -104,6 +120,19 @@ const Checkout = () => {
                     <form className="checkout-form" onSubmit={handleSubmit}>
                         <h3>Datos del Comprador</h3>
                         
+                        {error && (
+                            <div className="error-message" style={{
+                                backgroundColor: '#fee',
+                                border: '1px solid #fcc',
+                                color: '#c33',
+                                padding: '10px',
+                                borderRadius: '5px',
+                                marginBottom: '15px'
+                            }}>
+                                {error}
+                            </div>
+                        )}
+                        
                         <div className="form-group">
                             <label htmlFor="name">Nombre Completo *</label>
                             <input
@@ -114,6 +143,7 @@ const Checkout = () => {
                                 onChange={handleChange}
                                 placeholder="Juan Pérez"
                                 required
+                                disabled={loading}
                             />
                         </div>
 
@@ -127,6 +157,7 @@ const Checkout = () => {
                                 onChange={handleChange}
                                 placeholder="juan@ejemplo.com"
                                 required
+                                disabled={loading}
                             />
                         </div>
 
@@ -140,11 +171,16 @@ const Checkout = () => {
                                 onChange={handleChange}
                                 placeholder="+54 11 1234-5678"
                                 required
+                                disabled={loading}
                             />
                         </div>
 
-                        <button type="submit" className="confirm-purchase-btn">
-                            Confirmar Compra
+                        <button 
+                            type="submit" 
+                            className="confirm-purchase-btn"
+                            disabled={loading}
+                        >
+                            {loading ? 'Procesando...' : 'Confirmar Compra'}
                         </button>
                     </form>
                 </div>

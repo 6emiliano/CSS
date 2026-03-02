@@ -1,8 +1,8 @@
-// Import the functions you need from the SDKs you need
+// Import funciones
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
+// fire configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBIwpfH2PpNzik-xS9F55PioqyedNHloTA",
   authDomain: "dds-6-e305d.firebaseapp.com",
@@ -12,8 +12,8 @@ const firebaseConfig = {
   appId: "1:308604994670:web:5dfa5d0d963a34546b127f"
 };
 
-// Initialize Firebase
+// Iniciar
 const app = initializeApp(firebaseConfig);
-const db = getFirestore();
+const db = getFirestore(app);
 
 export default db;
